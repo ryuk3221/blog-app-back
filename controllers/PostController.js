@@ -31,7 +31,7 @@ export const create = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const posts = await PostModel.find();
+    const posts = await PostModel.find().populate('user').exec();
     res.status(200).json(posts);
   } catch (err) {
     console.log(err);
@@ -44,10 +44,15 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const id = req.params.id;
-    const post = await PostModel.findById(id);
+    const updatedPost = await PostModel.findByIdAndUpdate(
+      id,
+      { $inc: { viewsCount: 1 } },
+      { new: true }
+    );
 
-    res.status(200).json(post);
+    res.status(200).json(updatedPost);
   } catch (err) {
+    console.log(err)
     res.status(500).json({
       message: "Не удалось получить пост"
     });

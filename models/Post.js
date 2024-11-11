@@ -23,6 +23,9 @@ const PostSchema = new mongoose.Schema({
     required: true
   },
   imageUrl: String
-});
+},
+  {
+    timestamps: true,
+  });
 
 export default mongoose.model('Post', PostSchema);
