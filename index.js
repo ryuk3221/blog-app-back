@@ -4,7 +4,7 @@ import { registerValidation } from "./validations/auth.js";
 import checkAuth from "./utils/checkAuth.js";
 import { getMe, login, register } from "./controllers/UserController.js";
 import { postValidation } from "./validations/post.js";
-import { create, getAll } from "./controllers/PostController.js";
+import { create, getAll, getOne, update, deleteItem } from "./controllers/PostController.js";
 
 const db_url = 'mongodb+srv://danilmitrofanov123:map2253377@cluster0.gqygo.mongodb.net/blog';
 
@@ -32,19 +32,19 @@ app.post('/auth/register', registerValidation, register);
 app.get('/auth/me', checkAuth, getMe);
 
 //Получение всех статей
-app.get('/posts',  getAll);
+app.get('/posts', getAll);
 
-//Получение статьи
-// app.get('/posts/:id', getOne);
+// Получение статьи
+app.get('/posts/:id', getOne);
 
 //Добавление статьи
 app.post('/posts', checkAuth, postValidation, create);
 
-//удаление статьи
-// app.post('/posts/:id', checkAuth, delete);
+// удаление статьи
+app.delete('/posts/:id', checkAuth, deleteItem);
 
-//редактирование статьи
-// app.patch('/posts/:id', checkAuth, update);
+// редактирование статьи
+app.patch('/posts/:id', checkAuth, update);
 
 app.listen(4444, (err) => {
   if (err) {

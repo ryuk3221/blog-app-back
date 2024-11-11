@@ -42,5 +42,46 @@ export const getAll = async (req, res) => {
 };
 
 export const getOne = async (req, res) => {
-  
-}
+  try {
+    const id = req.params.id;
+    const post = await PostModel.findById(id);
+
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json({
+      message: "Не удалось получить пост"
+    });
+  }
+};
+
+export const update = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedData = {
+      title: req.body.title,
+      text: req.body.text,
+      tags: req.body.tags
+    };
+
+    const updatedDoc = await PostModel.findByIdAndUpdate(id, updatedData, { new: true });
+
+    res.status(200).json(updatedDoc);
+  } catch (err) {
+    res.status(500).json({
+      message: 'Не удалось редактировать пост'
+    });
+  }
+};
+
+export const deleteItem = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const deletedDoc = await PostModel.findByIdAndDelete(id);
+    res.status(200).json(deletedDoc);
+  } catch (err) {
+    res.status(500).json({
+      message: 'Не удалось пост'
+    });
+  }
+};
