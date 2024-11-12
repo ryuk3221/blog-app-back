@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import multer from "multer";
 import { registerValidation } from "./validations/auth.js";
 import checkAuth from "./utils/checkAuth.js";
 import { getMe, login, register } from "./controllers/UserController.js";
@@ -19,32 +20,41 @@ mongoose
 
 const app = express();
 
-app.use(express.json());
-
-app.get('/hello', (req, res) => {
-  res.send(JSON.stringify({ status: "Success", message: "Hello world" }));
+const storage = multer.diskStorage({
+  destination: (a, b, cb) => {
+    cb(null, 'uploads');
+  },
+  filename: (a, file, cb) => {
+    cb(null, file.originalname);
+  }
 });
 
+const upload = multer({ storage });
+
+app.use(express.json());
+app.use('/uploads', express.static('uploads'));
+
+
 app.post('/auth/login', login);
-
 app.post('/auth/register', registerValidation, register);
-
 app.get('/auth/me', checkAuth, getMe);
+
+app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
+  res.json({
+    url: `/uploads/${req.file.originalname}`
+  });
+});
 
 //Получение всех статей
 app.get('/posts', getAll);
-
 // Получение статьи
 app.get('/posts/:id', getOne);
-
 //Добавление статьи
 app.post('/posts', checkAuth, postValidation, create);
-
 // удаление статьи
 app.delete('/posts/:id', checkAuth, deleteItem);
-
 // редактирование статьи
-app.patch('/posts/:id', checkAuth, update);
+app.patch('/posts/:id', checkAuth, postValidation, update);
 
 app.listen(4444, (err) => {
   if (err) {
