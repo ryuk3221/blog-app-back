@@ -6,7 +6,7 @@ import { registerValidation } from "./validations/auth.js";
 import checkAuth from "./utils/checkAuth.js";
 import { getMe, login, register } from "./controllers/UserController.js";
 import { postValidation } from "./validations/post.js";
-import { create, getAll, getOne, update, deleteItem } from "./controllers/PostController.js";
+import { create, getAll, getOne, update, deleteItem, getLastTags } from "./controllers/PostController.js";
 
 const db_url = 'mongodb+srv://danilmitrofanov123:map2253377@cluster0.gqygo.mongodb.net/blog';
 
@@ -57,6 +57,9 @@ app.post('/posts', checkAuth, postValidation, create);
 app.delete('/posts/:id', checkAuth, deleteItem);
 // редактирование статьи
 app.patch('/posts/:id', checkAuth, postValidation, update);
+
+//Получение тегов
+app.get('/tags', getLastTags);
 
 app.listen(4444, (err) => {
   if (err) {

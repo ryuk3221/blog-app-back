@@ -86,7 +86,21 @@ export const deleteItem = async (req, res) => {
     res.status(200).json(deletedDoc);
   } catch (err) {
     res.status(500).json({
-      message: 'Не удалось пост'
+      message: 'Не удалось удалить пост'
+    });
+  }
+};
+
+export const getLastTags = async (req, res) => {
+  try {
+    const posts = await PostModel.find().limit(5);
+
+    const tags = posts.map(obj => obj.tags).flat().slice(0, 5);
+    res.json(tags);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Не удалось получить теги'
     });
   }
 };
