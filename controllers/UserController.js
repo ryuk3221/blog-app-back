@@ -68,9 +68,10 @@ export const login = async (req, res) => {
     );
 
     res.json({
-      ...user,
+      ...user._doc,
       token
     });
+    console.log(user);
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -82,13 +83,13 @@ export const login = async (req, res) => {
 export const getMe = async (req, res) => {
   try {
     const user = await UserModel.findById(req.userId);
-   
+
     if (!user) {
-      return res.status(404).json({message: 'Пользователь не найден'});
+      return res.status(404).json({ message: 'Пользователь не найден' });
     }
 
     res.json(user);
   } catch (err) {
-    res.status(500).json({message: 'Нет доступа'});
+    res.status(500).json({ message: 'Нет доступа' });
   }
 };
