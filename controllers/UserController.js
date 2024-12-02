@@ -89,6 +89,7 @@ export const getMe = async (req, res) => {
     }
 
     res.json(user);
+    console.log(user);
   } catch (err) {
     res.status(500).json({ message: 'Нет доступа' });
   }

@@ -48,7 +48,7 @@ export const getOne = async (req, res) => {
       id,
       { $inc: { viewsCount: 1 } },
       { new: true }
-    );
+    ).populate('user');
 
     res.status(200).json(updatedPost);
   } catch (err) {
