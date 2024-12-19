@@ -61,7 +61,9 @@ app.patch('/posts/:id', checkAuth, postValidation, update);
 //Получение тегов
 app.get('/tags', getLastTags);
 
-app.listen(4444, (err) => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, (err) => {
   if (err) {
     return console.log(err);
   }
