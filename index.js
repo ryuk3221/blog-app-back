@@ -47,6 +47,11 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
   });
 });
 
+app.get('/', (req, res) => {
+  res.status(404).json({
+    message: "Hello world"
+  })
+});
 //Получение всех статей
 app.get('/posts', getAll);
 // Получение статьи
