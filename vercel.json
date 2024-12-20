@@ -8,8 +8,8 @@
   ],
   "rewrites": [
     {
-      "source": "/uploads/(.*)",
-      "destination": "/uploads/$1"
+      "source": "/(.*)",
+      "destination": "/index.js"
     }
   ]
 }
