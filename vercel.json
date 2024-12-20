@@ -12,6 +12,10 @@
       "destination": "/uploads/$1"
     },
     {
+      "source": "/upload",
+      "destination": "/index.js"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.js"
     }
